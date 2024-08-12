@@ -1,5 +1,7 @@
 package org.example.exogestionbibliotheque.service;
 
+import org.example.exogestionbibliotheque.annotation.AnnotationLog;
+import org.example.exogestionbibliotheque.annotation.AnnotationPerformance;
 import org.example.exogestionbibliotheque.entity.Book;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class BookService {
 
     }
 
+    @AnnotationPerformance
     public Book createBook() {
         Book book = new Book();
         books.add(book);
@@ -23,12 +26,14 @@ public class BookService {
 
     }
 
+    @AnnotationLog
     public Optional<Book> getBook(int id) {
         return books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst();
     }
 
+    @AnnotationPerformance
     public String deleteBook(int id) {
         Optional<Book> bookToRemove = getBook(id);
         if (bookToRemove.isPresent()) {

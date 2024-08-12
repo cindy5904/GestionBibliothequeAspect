@@ -11,10 +11,10 @@ public class PerformanceAspect {
 
 
     @Pointcut("@annotation(org.example.exogestionbibliotheque.annotation.AnnotationPerformance)")
-    public void customPointCut() {
+    public void performancePointCut() {
 
     }
-    @Around("customPointCut()")
+    @Around("performancePointCut()")
     public Object performanceAspect(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();

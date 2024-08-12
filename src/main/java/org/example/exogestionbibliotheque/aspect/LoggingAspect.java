@@ -11,21 +11,21 @@ import java.util.Arrays;
 public class LoggingAspect {
 
     @Pointcut("@annotation(org.example.exogestionbibliotheque.annotation.AnnotationLog)")
-    public void performancePointCut() {
+    public void logPointCut() {
 
     }
-    @Before("performancePointCut()")
+    @Before("logPointCut()")
     public void logBefore() {
 
         System.out.println("avant la méthode");
     }
-    @After("performancePointCut()")
+    @After("logPointCut()")
     public void logAfter(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         System.out.println("après la méthode" + joinPoint.getSignature().getName() + Arrays.stream(args).toList());
     }
 
-    @AfterReturning(value = "performancePointCut()", returning = "result")
+    @AfterReturning(value = "logPointCut()", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
 
         System.out.println("retour de la méthode" + result);
