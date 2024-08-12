@@ -9,18 +9,23 @@ import java.util.Arrays;
 @Component
 @Aspect
 public class LoggingAspect {
-    @Before("execution(* org.example.exogestionbibliotheque.service.*.*(..))")
+
+    @Pointcut("@annotation(org.example.exogestionbibliotheque.annotation.AnnotationLog)")
+    public void performancePointCut() {
+
+    }
+    @Before("performancePointCut()")
     public void logBefore() {
 
         System.out.println("avant la méthode");
     }
-    @After("execution(* org.example.exogestionbibliotheque.service.*.*(..))")
+    @After("performancePointCut()")
     public void logAfter(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         System.out.println("après la méthode" + joinPoint.getSignature().getName() + Arrays.stream(args).toList());
     }
 
-    @AfterReturning(value = "execution(* org.example.exogestionbibliotheque.service.*.*(..))", returning = "result")
+    @AfterReturning(value = "performancePointCut()", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
 
         System.out.println("retour de la méthode" + result);

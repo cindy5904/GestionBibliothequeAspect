@@ -1,22 +1,26 @@
 package org.example.exogestionbibliotheque.aspect;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
-
+@Component
+@Aspect
 public class PerformanceAspect {
-    private long executionTime;
 
-    @Before("execution(* org.example.exogestionbibliotheque.service.*.*(..))")
-    public void beforeExecution() {
-        executionTime = System.currentTimeMillis();
-        System.out.println(executionTime);
+
+    @Pointcut("@annotation(org.example.exogestionbibliotheque.annotation.AnnotationPerformance)")
+    public void customPointCut() {
+
     }
-
-    @After("execution(* org.example.exogestionbibliotheque.service.*.*(..))")
-    public void afterExecution(JoinPoint joinPoint) {
-        long timeElapsed = System.currentTimeMillis() - executionTime;
-        System.out.println("temps d'execution de la methode :" + joinPoint.getSignature().getName() + "est de :" + timeElapsed);
+    @Around("customPointCut()")
+    public Object performanceAspect(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long endTime = System.currentTimeMillis();
+        System.out.println("Temps d'execution : "+(endTime - startTime) + " ms");
+        return result;
     }
 
 }
